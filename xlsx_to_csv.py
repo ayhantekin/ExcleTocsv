@@ -389,8 +389,12 @@ def main() -> int:
                 report["sheets"].append(sheet_entry)
                 continue
 
+            existing_warnings = list(sheet_entry.get("warnings", []))
             for key, value in result.items():
+                if key == "warnings":
+                    continue
                 sheet_entry[key] = value
+            sheet_entry["warnings"] = existing_warnings + result.get("warnings", [])
 
             if sheet_entry["exported"]:
                 report["exported_sheets"].append(name)
